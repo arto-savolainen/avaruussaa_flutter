@@ -14,9 +14,15 @@ class SettingsViewState extends State {
   @override
   Widget build(BuildContext context) {
     final settingsView = Text('settings');
+    final appBar = AppBar( //TODO apply app styles
+      leading: IconButton(
+        icon: const Icon(Icons.arrow_back), 
+        onPressed: () => Navigator.pop(context)),
+      centerTitle: true, 
+      title: const Text('Aktiivisuus'));
 
     return Scaffold(
-        appBar: AppBar(centerTitle: true, title: Text('Asetukset')),
+        appBar: appBar,
         body: SafeArea(child: Container(child: Center(child: settingsView))));
   }
 }

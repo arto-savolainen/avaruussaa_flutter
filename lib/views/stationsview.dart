@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../components/station.dart';
+import '../services/stations_service.dart';
 
 class StationsView extends StatefulWidget {
   @override
@@ -6,7 +8,7 @@ class StationsView extends StatefulWidget {
 }
 
 class StationsViewState extends State {
-  var stationsList;
+  late List<Station> stationsList;
 
   @override
   initState() {
@@ -15,10 +17,9 @@ class StationsViewState extends State {
   }
 
   updateStationsList() {
-    // stationsList = StationsApi().getStations();
-    stationsList = [Text('station'), Text('station 2')];
+    stationsList = StationsService().getStations();
 
-    updateView();
+    // updateView();
   }
 
   updateView() {
@@ -34,7 +35,7 @@ class StationsViewState extends State {
     );
 
     return Scaffold(
-        appBar: AppBar(centerTitle: true, title: Text('Valitse havaintoasema')),
+        appBar: AppBar(centerTitle: true, title: const Text('Valitse havaintoasema', style: TextStyle(fontSize: 15))),
         body: SafeArea(child: Container(child: Center(child: stationsGridView))));
   }
 }
