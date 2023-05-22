@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../components/station.dart';
 import '../services/stations_service.dart';
 
 class MainView extends StatefulWidget {
@@ -8,7 +7,8 @@ class MainView extends StatefulWidget {
 }
 
 class MainViewState extends State {
-  late Station currentStation;
+  String currentStation = '';
+  double activity = 0;
 
   @override
   // initState() {
@@ -17,13 +17,28 @@ class MainViewState extends State {
 
   @override
   Widget build(BuildContext context) {
-    currentStation = StationsService().getCurrent();
+    currentStation = StationsService().getCurrent().name;
+    activity = StationsService().getCurrent().activity;
 
-    final stationsBtn = ElevatedButton(
+    const activityStyleTemp = TextStyle(
+      fontFamily: 'Calibri',
+      fontSize: 30,
+      fontWeight: FontWeight.bold,
+      color: Color(0xff1717fc));
+
+    final stationBtn = TextButton(
       onPressed: () => Navigator.pushNamed(context, '/stations').then((_) => setState(() => {})),
-      child: const Text('stations'));
+      child: Text(currentStation));
+    final stationIconBtn = GestureDetector(
+      onTap: () => Navigator.pushNamed(context, '/stations').then((_) => setState(() => {})),
+      child: MouseRegion(
+          cursor: SystemMouseCursors.click,
+          child: Image.asset('assets/station-icon.png')));
+    final stationClickable = Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [stationBtn, stationIconBtn]);
 
-    final mainView = Column(children: [stationsBtn, Text('CURRENT STATION: ${currentStation.name}')]);
+    final mainView = Column(children: [Text(activity.toString(), style: activityStyleTemp), stationClickable]);
     final appBar = AppBar( //TODO custom AppBar class, close & minimize buttons on the right
       leading: IconButton(
         icon: const Icon(Icons.menu), 
@@ -33,6 +48,7 @@ class MainViewState extends State {
 
     return Scaffold(
         appBar: appBar,
-        body: SafeArea(child: Container(child: Center(child: mainView))));
+        // body: SafeArea(child: Center(child: mainView))); for mobile
+        body: Center(child: mainView));
   }
 }

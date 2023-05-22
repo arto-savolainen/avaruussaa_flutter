@@ -1,3 +1,4 @@
+import 'package:http/http.dart' as http;
 import '../components/station.dart';
 
 class StationsService {
@@ -10,7 +11,8 @@ class StationsService {
   factory StationsService() => _instance;
 
   StationsService._internal() {
-    // TODO fetch from web here
+    // TODO USE https://pub.dev/packages/scoped_model
+
     final List<Station> tempStationList = [
       Station('station_1', 0.420),
       Station('station_2', 6),

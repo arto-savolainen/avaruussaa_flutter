@@ -10,6 +10,8 @@ dependencies:
   flutter:
     sdk: flutter
   window_manager: ^0.3.4
+  http: ^1.0.0
+  scoped_model: ^2.0.0
 
 dev_dependencies:
   flutter_test:
@@ -18,3 +20,5 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  assets:
+    - assets/

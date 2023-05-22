@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-
 import 'package:window_manager/window_manager.dart';
-
 import 'views/mainview.dart';
 import 'views/settingsview.dart';
 import 'views/stationsview.dart';
@@ -12,7 +10,7 @@ void main() async {
   await windowManager.ensureInitialized();
 
   WindowOptions windowOptions = const WindowOptions(
-    size: Size(300, 225),
+    size: Size(319, 237),
     center: true,
     backgroundColor: Colors.transparent,
     // backgroundColor: Color(0xff151515),
@@ -24,7 +22,6 @@ void main() async {
     await windowManager.setResizable(false);
     await windowManager.show();
     await windowManager.focus();
-   
   });
 
   runApp(const MainApp());
@@ -42,6 +39,7 @@ class MainApp extends StatelessWidget {
         '/settings': (context) => SettingsView(),
         '/stations': (context) => StationsView()
       },
+      debugShowCheckedModeBanner: false,
     );
   }
 }

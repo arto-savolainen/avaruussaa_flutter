@@ -19,7 +19,7 @@ class SettingsViewState extends State {
         icon: const Icon(Icons.arrow_back), 
         onPressed: () => Navigator.pop(context)),
       centerTitle: true, 
-      title: const Text('Aktiivisuus'));
+      title: const Text('Asetukset'));
 
     return Scaffold(
         appBar: appBar,
