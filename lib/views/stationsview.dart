@@ -8,7 +8,7 @@ class StationsView extends StatefulWidget {
 }
 
 class StationsViewState extends State {
-  late List<Station> stationsList;
+  List<Station> stationsList = [];
 
   @override
   initState() {
@@ -16,10 +16,9 @@ class StationsViewState extends State {
     updateStationsList();
   }
 
-  updateStationsList() {
-    stationsList = StationsService().getStations();
-
-    // updateView();
+  updateStationsList() async {
+    stationsList = await StationsService.getStations();
+    updateView();
   }
 
   updateView() {
