@@ -1,8 +1,10 @@
+// ignore_for_file: avoid_print
+
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import '../components/station.dart';
 import '../util/set_timeout.dart';
-import './stations_changenotifier.dart';
+import '../models/station_changenotifier.dart';
 
 const _stationCodes = [
   (name: 'Kevo', code: 'KEV'),
@@ -21,46 +23,30 @@ const _stationCodes = [
 
 class StationsService {
   static const String url = 'https://www.ilmatieteenlaitos.fi/revontulet-ja-avaruussaa';
-  static List<Station> _stations = [];
-  static Station _currentStation = Station('');
+  static final List<Station> _stations = [];
   static bool _initialized = false;
+  static StationModel _model = StationModel();
   
   StationsService._(); // Private constructor for static class
+
+  static subscribe(StationModel model) {
+    _model = model;
+
+    _checkIfInitialized();
+  } 
 
   static setStation(String stationName) async {
     await _checkIfInitialized();
 
-    _currentStation = _stations.firstWhere((element) => element.name == stationName, orElse: () => 
-      _errorStation(stationName, '$stationName station not found!'));
+    _model.updateCurrentStation(_stations.firstWhere((element) => element.name == stationName, orElse: () => 
+      _errorStation(stationName, '$stationName station not found!')));
   }
 
+  // Used by StationsView to populate the grid for selecting a station
   static getStations() async {
     await _checkIfInitialized();
 
     return _stations;
-  }
-
-  static getStation() async { // Currently unused
-    await _checkIfInitialized();
-
-    return _currentStation;
-  }
-
-  static getName() async {
-    await _checkIfInitialized();
-
-    // Return error message to main view if data for currently selected station is unavailable
-    if (_currentStation.error.isNotEmpty) {
-      return _currentStation.error;
-    }
-
-    return _currentStation.name;
-  }
-
-  static getActivity() async {
-    await _checkIfInitialized();
-
-    return _currentStation.activity;
   }
 
   static _checkIfInitialized() async {
@@ -74,10 +60,13 @@ class StationsService {
       // Time in econds until the clock is 11 minutes past, 21 past, etc.
       var secondsUntilUpdate = offsetMinutes * 60 + offsetSeconds;
 
+      print('STARTING FIRST TIMER');
       setTimeout(secondsUntilUpdate, () {
         // Here time is about 1 minute after assumed site update. Now we set a timer that will run through the lifetime of the program
         // and call the data fetch function every 10 minutes.
+        print('STARTING REPEATING TIMER');
         setRepeatingTimeout(10 * 60, (timer) {
+          print('EXECUTING REPEATING TIMER');
           _fetchData();
           // appWindow.emit('ui-set-update-timer', 10 * 60)
         });
@@ -94,6 +83,7 @@ class StationsService {
   }
 
   static _fetchData() async {
+    print('IN FETCHDATA');
     _stations.clear();
 
     try {
@@ -135,15 +125,22 @@ class StationsService {
     } 
     catch (e) {
       print('ERROR: $e');
-      _currentStation = _errorStation('Error', '$e');
+      _model.updateCurrentStation(_errorStation('Error', '$e'));
       return;
     }
   
     assert(_stations.length == 12, 'INCORRECT LENGTH OF _stations');
+    for (var i in _stations) {
+      print('STATION: ${i.name} ${i.activity}');
+    }
 
-    // If _currentStation is not yet initialized, set Nurmijärvi as default station
-    if (_currentStation.name == '') {
-      _currentStation = _stations[10]; 
+    // If the model is not yet initialized, set Nurmijärvi as default station
+    if (!_initialized) {
+      _model.updateCurrentStation(_stations[10]); 
+    }
+    // Else find the fresh data for the current station from _stations and update the model
+    else {
+      _model.updateCurrentStation(_stations.firstWhere((element) => element.name == _model.name));
     }
     
     _initialized = true;
