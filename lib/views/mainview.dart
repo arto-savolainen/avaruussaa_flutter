@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../services/stations_service.dart';
-import '../components/station.dart';
 
 class MainView extends StatefulWidget {
   @override
@@ -9,7 +8,7 @@ class MainView extends StatefulWidget {
 
 class MainViewState extends State {
   String currentStationName = 'loading...';
-  double activity = 0;
+  double currentActivity = 0;
 
   @override
   initState() {
@@ -18,9 +17,8 @@ class MainViewState extends State {
   }
 
   getStationData() async {
-    var currentStation = await StationsService.getCurrent();
-    currentStationName = currentStation.name;
-    activity = currentStation.activity;
+    currentStationName = await StationsService.getName();
+    currentActivity = await StationsService.getActivity();
     updateView();
   }
 
@@ -37,7 +35,7 @@ class MainViewState extends State {
       color: Color(0xff1717fc));
 
     final currentStationNameText = Text(currentStationName);
-    final activityText = Text(activity.toString(), style: activityStyleTemp);
+    final activityText = Text(currentActivity.toString(), style: activityStyleTemp);
 
     final stationBtn = TextButton(
       onPressed: () => Navigator.pushNamed(context, '/stations').then((_) => getStationData()),

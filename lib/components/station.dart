@@ -10,7 +10,7 @@ class Station extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     setStation() {
-      StationsService.setStation(this);
+      StationsService.setStation(name);
       Navigator.pop(context);
     }
 

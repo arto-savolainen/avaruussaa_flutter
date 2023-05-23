@@ -1,6 +1,4 @@
-import 'package:avaruussaa_flutter/services/stations_service.dart';
 import 'package:flutter/material.dart';
-import 'package:scoped_model/scoped_model.dart';
 import 'package:window_manager/window_manager.dart';
 import 'views/mainview.dart';
 import 'views/settingsview.dart';
@@ -26,19 +24,15 @@ void main() async {
     await windowManager.focus();
   });
 
-  runApp(MainApp(model: StationsService()));
+  runApp(const MainApp());
 }
 
 class MainApp extends StatelessWidget {
-  final StationsService model;
-
-  const MainApp({Key? key, required this.model}) : super(key: key);
+  const MainApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return ScopedModel(
-      model: model,
-      child: MaterialApp(
+    return MaterialApp(
         initialRoute: '/main',
         routes: {
           '/main': (context) => MainView(),
@@ -46,6 +40,6 @@ class MainApp extends StatelessWidget {
           '/stations': (context) => StationsView()
         },
         debugShowCheckedModeBanner: false,
-    ));
+    );
   }
 }
