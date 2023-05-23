@@ -34,7 +34,7 @@ class MainViewState extends State {
       fontWeight: FontWeight.bold,
       color: Color(0xff1717fc));
 
-    final currentStationNameText = Text(currentStationName);
+    final currentStationNameText = Text(currentStationName, softWrap: true,);
     final activityText = Text(currentActivity.toString(), style: activityStyleTemp);
 
     final stationBtn = TextButton(
@@ -47,7 +47,7 @@ class MainViewState extends State {
           child: Image.asset('assets/station-icon.png')));
     final stationClickable = Row(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: [stationBtn, stationIconBtn]);
+      children: [Flexible(child: stationBtn), stationIconBtn]);
 
     final mainView = Column(children: [activityText, stationClickable]);
     final appBar = AppBar( //TODO custom AppBar class, close & minimize buttons on the right

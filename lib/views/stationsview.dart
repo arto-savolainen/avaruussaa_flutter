@@ -29,12 +29,17 @@ class StationsViewState extends State {
   Widget build(BuildContext context) {
     final stationsGridView = GridView.count(
       crossAxisCount: 2,
+      mainAxisSpacing: 0.5,
+      childAspectRatio: 8,
       // childAspectRatio: (itemWidth / itemHeight),
       children: stationsList,
     );
+    final gridContainer = Container(
+      margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
+      child: stationsGridView);
 
     return Scaffold(
         appBar: AppBar(centerTitle: true, title: const Text('Valitse havaintoasema', style: TextStyle(fontSize: 15))),
-        body: SafeArea(child: Container(child: Center(child: stationsGridView))));
+        body: SafeArea(child: Center(child: gridContainer)));
   }
 }

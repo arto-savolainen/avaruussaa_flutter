@@ -4,8 +4,9 @@ import '../services/stations_service.dart';
 class Station extends StatelessWidget {
   final String name;
   final double activity;
+  String error;
 
-  Station(this.name, this.activity);
+  Station(this.name, {this.activity = 0, this.error = ''});
 
   @override
   Widget build(BuildContext context) {
