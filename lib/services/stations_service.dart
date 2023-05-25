@@ -174,9 +174,9 @@ class StationsService {
     }
     // Else find the fresh data for the current station from _stations and update the model
     else {
-      Station currentStation =
-          _stations.firstWhere((element) => element.name == _model.name);
+      Station currentStation = _stations.firstWhere((element) => element.name == _model.name);
       _model.updateCurrentStation(currentStation);
+      
       // Show notification if activity level is at or above treshold
       if (currentStation.activity >= _notificationTreshold) {
         _showNotification(currentStation);

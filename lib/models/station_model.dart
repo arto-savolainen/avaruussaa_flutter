@@ -6,23 +6,20 @@ import '../util/set_timeout.dart';
 
 class StationModel with ChangeNotifier {
   String _name = 'loading...';
+  String _error = '';
   double _activity = 0;
   Timer? _timer;
   String _timerString = '00:00';
   String get name => _name;
+  String get error => _error;
   double get activity => _activity;
   String get timerString => _timerString;
 
   updateCurrentStation(Station newStation) {
     print('UPDATING STATIONMODEL');
     _activity = newStation.activity;
-
-    if (newStation.error.isNotEmpty) {
-      _name = newStation.error;
-    }
-    else {
-      _name = newStation.name;
-    }
+    _name = newStation.name;
+    _error = newStation.error;
 
     notifyListeners();
   }

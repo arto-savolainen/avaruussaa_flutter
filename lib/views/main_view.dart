@@ -29,10 +29,10 @@ class MainViewState extends State {
       fontWeight: FontWeight.bold,
       color: Color(0xff1717fc),
     );
-
     const timerStyle = TextStyle(
       fontSize: 14,
     );
+    const errorStyle = timerStyle;
 
     // Set text widgets for displaying activity level, time to next update, and the name of the currently selected station
     // Widgets built with ListenableBuilder are rebuilt when the StationModel object notifies them of changed values
@@ -40,8 +40,10 @@ class MainViewState extends State {
         listenable: stationNotifier,
         builder: (BuildContext context, Widget? child) {
           return Text(
-            stationNotifier.activity.toString(),
-            style: activityStyle,
+            // Display error message in place of activity if the model's error is not empty
+            stationNotifier.error == '' ? stationNotifier.activity.toString() : stationNotifier.error,
+            style: stationNotifier.error == '' ? activityStyle : errorStyle,
+            textAlign: TextAlign.center,
           );
         });
 
@@ -63,7 +65,7 @@ class MainViewState extends State {
           );
         });
 
-    // Buttons that go to StationView
+    // Clickable elements to navigate to StationsView
     final stationBtn = TextButton(
       onPressed: () => Navigator.pushNamed(context, '/stations'),
       child: currentStationNameText,
