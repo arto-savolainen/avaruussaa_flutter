@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:window_manager/window_manager.dart';
-import 'views/mainview.dart';
-import 'views/settingsview.dart';
-import 'views/stationsview.dart';
+import 'views/main_view.dart';
+import 'views/settings_view.dart';
+import 'views/stations_view.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

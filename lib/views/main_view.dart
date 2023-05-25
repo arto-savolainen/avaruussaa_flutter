@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../services/stations_service.dart';
-import '../models/station_changenotifier.dart';
+import '../models/station_model.dart';
 
 class MainView extends StatefulWidget {
   @override
