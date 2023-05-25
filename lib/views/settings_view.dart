@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class SettingsView extends StatefulWidget {
+  const SettingsView({super.key});
+
   @override
   SettingsViewState createState() => SettingsViewState();
 }
@@ -23,6 +25,6 @@ class SettingsViewState extends State {
 
     return Scaffold(
         appBar: appBar,
-        body: SafeArea(child: Container(child: Center(child: settingsView))));
+        body: SafeArea(child: Center(child: settingsView)));
   }
 }

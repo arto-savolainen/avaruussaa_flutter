@@ -3,6 +3,8 @@ import '../components/station.dart';
 import '../services/stations_service.dart';
 
 class StationsView extends StatefulWidget {
+  const StationsView({super.key});
+
   @override
   StationsViewState createState() => StationsViewState();
 }
@@ -35,11 +37,12 @@ class StationsViewState extends State {
       children: stationsList,
     );
     final gridContainer = Container(
-      margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
-      child: stationsGridView);
+        margin: const EdgeInsets.fromLTRB(10, 10, 10, 10), child: stationsGridView);
 
     return Scaffold(
-        appBar: AppBar(centerTitle: true, title: const Text('Valitse havaintoasema', style: TextStyle(fontSize: 15))),
+        appBar: AppBar(
+            centerTitle: true,
+            title: const Text('Valitse havaintoasema', style: TextStyle(fontSize: 15))),
         body: SafeArea(child: Center(child: gridContainer)));
   }
 }

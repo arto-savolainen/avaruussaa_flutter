@@ -1,5 +1,5 @@
 name: avaruussaa_flutter
-description: A new Flutter project.
+description: Avaruussään Flutter versio.
 publish_to: 'none'
 version: 0.1.0
 
@@ -11,6 +11,8 @@ dependencies:
     sdk: flutter
   window_manager: ^0.3.4
   http: ^1.0.0
+  local_notifier: ^0.1.5
+  shared_preferences: ^2.1.1
 
 dev_dependencies:
   flutter_test:
