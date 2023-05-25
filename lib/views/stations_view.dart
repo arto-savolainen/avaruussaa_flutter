@@ -1,3 +1,4 @@
+import 'package:avaruussaa_flutter/components/appbar.dart';
 import 'package:flutter/material.dart';
 import '../components/station.dart';
 import '../services/stations_service.dart';
@@ -40,9 +41,7 @@ class StationsViewState extends State {
         margin: const EdgeInsets.fromLTRB(10, 10, 10, 10), child: stationsGridView);
 
     return Scaffold(
-        appBar: AppBar(
-            centerTitle: true,
-            title: const Text('Valitse havaintoasema', style: TextStyle(fontSize: 15))),
+        appBar: const MyAppBar('stations', titleStyle: TextStyle(fontSize: 17)),
         body: SafeArea(child: Center(child: gridContainer)));
   }
 }

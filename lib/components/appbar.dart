@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:bitsdojo_window/bitsdojo_window.dart';
 
 class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String viewName;
   final TextStyle titleStyle;
   
-  MyAppBar(this.viewName, {this.titleStyle = const TextStyle(), super.key});
+  const MyAppBar(this.viewName, {this.titleStyle = const TextStyle(), super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +27,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
         break;
 
       case 'stations':
-        title = 'Valitse havaintoasema';
+        title = 'Havaintoasema';
         leadingIcon = const Icon(Icons.arrow_back);
         onIconClick = () => Navigator.pop(context);
         break;
@@ -35,14 +36,19 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
         break;
     }
 
-    return AppBar(
+    var minimizeBtn = IconButton(onPressed: () => {}, icon: Icon(Icons.minimize));
+    var closeBtn = IconButton(onPressed: () {}, icon: Icon(Icons.close));
+
+    return MoveWindow(child: AppBar(
       leading: IconButton(
         icon: leadingIcon,
         onPressed: onIconClick,
       ),
       centerTitle: true,
+      // title: SizedBox(width: 100, height: 30, child: MoveWindow(child:Text(title, style: titleStyle))),
       title: Text(title, style: titleStyle),
-    );
+      actions: [minimizeBtn, closeBtn],
+    ));
   }
 
   @override

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../components/appbar.dart';
 
 class SettingsView extends StatefulWidget {
   const SettingsView({super.key});
@@ -16,12 +17,7 @@ class SettingsViewState extends State {
   @override
   Widget build(BuildContext context) {
     final settingsView = Text('settings');
-    final appBar = AppBar( //TODO apply app styles
-      leading: IconButton(
-        icon: const Icon(Icons.arrow_back), 
-        onPressed: () => Navigator.pop(context)),
-      centerTitle: true, 
-      title: const Text('Asetukset'));
+    const appBar = MyAppBar('settings');
 
     return Scaffold(
         appBar: appBar,

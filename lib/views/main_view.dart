@@ -105,7 +105,7 @@ class MainViewState extends State {
     //   centerTitle: true,
     //   title: const Text('Aktiivisuus'),
     // );
-    final appBar = MyAppBar('main');
+    const appBar = MyAppBar('main');
 
     return Scaffold(
       appBar: appBar,
