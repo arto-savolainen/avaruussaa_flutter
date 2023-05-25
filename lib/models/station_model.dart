@@ -37,7 +37,6 @@ class StationModel with ChangeNotifier {
   }
 
   _updateTimer(DateTime updateTime) {
-    print('UPDATETIME: $updateTime');
     int secondsToNextUpdate = ((updateTime.millisecondsSinceEpoch - DateTime.now().millisecondsSinceEpoch) / 1000).round();
     print('TIMETOUPDATE: $secondsToNextUpdate');
 

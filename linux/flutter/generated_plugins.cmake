@@ -3,9 +3,9 @@
 #
 
 list(APPEND FLUTTER_PLUGIN_LIST
+  bitsdojo_window_linux
   local_notifier
-  screen_retriever
-  window_manager
+  system_tray
 )
 
 list(APPEND FLUTTER_FFI_PLUGIN_LIST

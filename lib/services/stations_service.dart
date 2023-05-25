@@ -114,6 +114,7 @@ class StationsService {
       switch (response.statusCode) {
         case 200:
           data = response.body;
+          break;
         default:
           throw Exception(response.reasonPhrase);
       }
@@ -176,7 +177,7 @@ class StationsService {
     else {
       Station currentStation = _stations.firstWhere((element) => element.name == _model.name);
       _model.updateCurrentStation(currentStation);
-      
+
       // Show notification if activity level is at or above treshold
       if (currentStation.activity >= _notificationTreshold) {
         _showNotification(currentStation);

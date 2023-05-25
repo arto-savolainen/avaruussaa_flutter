@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../services/stations_service.dart';
 import '../models/station_model.dart';
+import '../components/appbar.dart';
 
 class MainView extends StatefulWidget {
   const MainView({super.key});
@@ -96,14 +97,15 @@ class MainViewState extends State {
         stationClickable,
       ],
     );
-    final appBar = AppBar(
-      leading: IconButton(
-        icon: const Icon(Icons.menu),
-        onPressed: () => Navigator.pushNamed(context, '/settings'),
-      ),
-      centerTitle: true,
-      title: const Text('Aktiivisuus'),
-    );
+    // final appBar = AppBar(
+    //   leading: IconButton(
+    //     icon: const Icon(Icons.menu),
+    //     onPressed: () => Navigator.pushNamed(context, '/settings'),
+    //   ),
+    //   centerTitle: true,
+    //   title: const Text('Aktiivisuus'),
+    // );
+    final appBar = MyAppBar('main');
 
     return Scaffold(
       appBar: appBar,
