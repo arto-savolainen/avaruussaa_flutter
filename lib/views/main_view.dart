@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../services/stations_service.dart';
 import '../models/station_model.dart';
 import '../components/appbar.dart';
+import '../components/titlebar.dart';
 
 class MainView extends StatefulWidget {
   const MainView({super.key});
@@ -89,6 +90,7 @@ class MainViewState extends State {
     // Main view and appBar
     final mainView = Column(
       children: [
+        TitleBar('main'),
         SizedBox(
           height: 70,
           child: Center(child: activityText),
@@ -97,18 +99,11 @@ class MainViewState extends State {
         stationClickable,
       ],
     );
-    // final appBar = AppBar(
-    //   leading: IconButton(
-    //     icon: const Icon(Icons.menu),
-    //     onPressed: () => Navigator.pushNamed(context, '/settings'),
-    //   ),
-    //   centerTitle: true,
-    //   title: const Text('Aktiivisuus'),
-    // );
-    const appBar = MyAppBar('main');
+
+    // const appBar = MyAppBar('main');
 
     return Scaffold(
-      appBar: appBar,
+      // appBar: appBar,
       body: Center(child: mainView),
     );
   }

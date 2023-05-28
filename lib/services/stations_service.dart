@@ -166,7 +166,7 @@ class StationsService {
     assert(_stations.length == 12, 'INCORRECT LENGTH OF _stations');
 
     for (var i in _stations) {
-      print('STATION: ${i.name} ${i.activity}');
+      print('STATION: ${i.toString()}');
     }
 
     // If the model is not yet initialized, set Nurmijärvi as default station

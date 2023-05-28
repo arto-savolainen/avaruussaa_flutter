@@ -8,7 +8,7 @@ import 'views/settings_view.dart';
 import 'views/stations_view.dart';
 
 void main() async {
-  // Required by packages accessing system functions
+  // Required by some packages accessing system functions
   WidgetsFlutterBinding.ensureInitialized();
   // // Must add this line.
   // await windowManager.ensureInitialized();
@@ -23,7 +23,7 @@ void main() async {
 
   runApp(const MainApp());
 
-  // Initialize window
+  // Initialize window *after* runApp
   initWindow();
 }
 
@@ -42,8 +42,19 @@ Future<void> initSystemTray() async {
   // Create context menu
   final Menu menu = Menu();
   await menu.buildFrom([
-    MenuItemLabel(label: 'Show', onClicked: (menuItem) => appWindow.show()),
-    MenuItemLabel(label: 'Exit', onClicked: (menuItem) => appWindow.close()),
+    MenuItemLabel(
+      label: 'Show',
+      onClicked: (menuItem) {
+        appWindow.show();
+      },
+    ),
+    MenuItemLabel(
+      label: 'Exit',
+      onClicked: (menuItem) async {
+        await systemTray.destroy();
+        appWindow.close(); 
+      },
+    ),
   ]);
 
   await systemTray.setContextMenu(menu);
@@ -65,25 +76,12 @@ Future<void> initWindow() async {
   doWhenWindowReady(() {
     const initialSize = Size(300, 225);
     appWindow.minSize = initialSize;
+    appWindow.maxSize = initialSize;
     appWindow.size = initialSize;
     appWindow.alignment = Alignment.center;
+    appWindow.title = 'Avaruussää';
     appWindow.show();
   });
-
-//     WindowOptions windowOptions = const WindowOptions(
-//     size: Size(319, 237),
-//     center: true,
-//     backgroundColor: Colors.transparent,
-//     // backgroundColor: Color(0xff151515),
-//     skipTaskbar: false,
-//     titleBarStyle: TitleBarStyle.normal,
-
-//   );
-//   windowManager.waitUntilReadyToShow(windowOptions, () async {
-//     await windowManager.setResizable(false);
-//     await windowManager.show();
-//     await windowManager.focus();
-//   });
 }
 
 class MainApp extends StatelessWidget {

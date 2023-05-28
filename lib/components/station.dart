@@ -23,4 +23,9 @@ class Station extends StatelessWidget {
 
     return TextButton(onPressed: setStation, child: Text(name));
   }
+
+  @override
+  String toString({ DiagnosticLevel minLevel = DiagnosticLevel.debug }) {
+    return '{ name: $name, activity: $activity, error: $error }';
+  }
 }

@@ -1,7 +1,7 @@
-import 'package:avaruussaa_flutter/components/appbar.dart';
 import 'package:flutter/material.dart';
 import '../components/station.dart';
 import '../services/stations_service.dart';
+import '../components/titlebar.dart';
 
 class StationsView extends StatefulWidget {
   const StationsView({super.key});
@@ -30,18 +30,21 @@ class StationsViewState extends State {
 
   @override
   Widget build(BuildContext context) {
+    final titleBar = TitleBar('stations');
+
     final stationsGridView = GridView.count(
       crossAxisCount: 2,
       mainAxisSpacing: 0.5,
       childAspectRatio: 8,
-      // childAspectRatio: (itemWidth / itemHeight),
       children: stationsList,
     );
     final gridContainer = Container(
         margin: const EdgeInsets.fromLTRB(10, 10, 10, 10), child: stationsGridView);
 
+    final stationsView = Column(children: [titleBar, Expanded(child: gridContainer)]);
+
     return Scaffold(
-        appBar: const MyAppBar('stations', titleStyle: TextStyle(fontSize: 17)),
-        body: SafeArea(child: Center(child: gridContainer)));
+        // appBar: const MyAppBar('stations', titleStyle: TextStyle(fontSize: 17)),
+        body: SafeArea(child: Center(child: stationsView)));
   }
 }
