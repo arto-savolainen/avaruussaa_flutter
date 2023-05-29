@@ -6,6 +6,7 @@ import 'package:system_tray/system_tray.dart';
 import 'views/main_view.dart';
 import 'views/settings_view.dart';
 import 'views/stations_view.dart';
+import 'themes/theme.dart';
 
 void main() async {
   // Required by some packages accessing system functions
@@ -90,13 +91,14 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        initialRoute: '/main',
-        routes: {
-          '/main': (context) => const MainView(),
-          '/settings': (context) => const SettingsView(),
-          '/stations': (context) => const StationsView()
-        },
-        debugShowCheckedModeBanner: false,
+      theme: AvaruusTheme.theme,
+      initialRoute: '/main',
+      routes: {
+        '/main': (context) => const MainView(),
+        '/settings': (context) => const SettingsView(),
+        '/stations': (context) => const StationsView(),
+      },
+      debugShowCheckedModeBanner: false,
     );
   }
 }

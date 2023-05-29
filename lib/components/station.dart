@@ -5,11 +5,16 @@ import 'package:flutter/material.dart';
 class Station extends StatelessWidget {
   final String name; // Station name
   final double activity; // Current activity level measured at station
-  final String error; // This is set if no valid data for the station could be retrieved 
+  final String error; // This is set if no valid data for the station could be retrieved
   final Function callback; // This is called when the user presses the TextButton returned by build
 
-  const Station(this.name, this.callback, {super.key, this.activity = 0, this.error = '',});
-
+  const Station(
+    this.name,
+    this.callback, {
+    super.key,
+    this.activity = 0,
+    this.error = '',
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -21,11 +26,14 @@ class Station extends StatelessWidget {
       Navigator.pop(context);
     }
 
-    return TextButton(onPressed: setStation, child: Text(name));
+    return TextButton(
+      onPressed: setStation,
+      child: Text(name),
+    );
   }
 
   @override
-  String toString({ DiagnosticLevel minLevel = DiagnosticLevel.debug }) {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.debug}) {
     return '{ name: $name, activity: $activity, error: $error }';
   }
 }

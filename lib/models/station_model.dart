@@ -4,6 +4,9 @@ import 'dart:async';
 import '../components/station.dart';
 import '../util/set_timeout.dart';
 
+// Data model for the currently selected station and the update timer
+// Notifies listeners (MainView) when station data or the timer changes, 
+// triggering a rebuild of widgets dependant on the model's data
 class StationModel with ChangeNotifier {
   String _name = 'loading...';
   String _error = '';

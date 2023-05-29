@@ -22,8 +22,7 @@ const _stationCodes = [
 ];
 
 class StationsService {
-  static const String url =
-      'https://www.ilmatieteenlaitos.fi/revontulet-ja-avaruussaa';
+  static const String url = 'https://www.ilmatieteenlaitos.fi/revontulet-ja-avaruussaa';
   static final List<Station> _stations = [];
   static bool _initialized = false;
   static StationModel _model = StationModel();
@@ -42,12 +41,10 @@ class StationsService {
 
     _model.updateCurrentStation(_stations.firstWhere(
         (element) => element.name == stationName,
-        orElse: () =>
-            _errorStation(stationName, '$stationName station not found!')));
+        orElse: () => _errorStation(stationName, '$stationName station not found!')));
   }
 
   // Used by StationsView to populate the grid for selecting a station
-  // TODO: Maybe move this responsibility to StationModel
   static getStations() async {
     await _checkIfInitialized();
 

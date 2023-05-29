@@ -2,25 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:system_tray/system_tray.dart';
 
-//TODO: icon color with theme
-class TitleBar extends StatelessWidget {
-  final double _width = 225;
-  final double _height = 30;
-  final String view;
-  TextStyle titleStyle = const TextStyle(
-    fontSize: 32,
-    fontFamily: 'Bahnschrift',
-    fontWeight: FontWeight.bold,
-    color: Color(0xff707070),
-  );
+const double _width = 225;
+const double _height = 30;
 
-  TitleBar(this.view, {super.key});
+class TitleBar extends StatelessWidget {
+  final String view;
+
+  const TitleBar(this.view, {super.key});
   
   @override
   Widget build(BuildContext context) {
     String title = '';
     Icon icon = const Icon(Icons.menu);
-    var onPressed;
+    VoidCallback? onPressed;
+
+    TextStyle? titleStyle = Theme.of(context).textTheme.titleLarge;
 
     switch(view) {
       case 'main':
@@ -36,12 +32,7 @@ class TitleBar extends StatelessWidget {
 
       case 'stations':
         title = 'Valitse havaintoasema';
-        titleStyle = const TextStyle(
-          fontSize: 18,
-          fontFamily: 'Bahnschrift',
-          fontWeight: FontWeight.bold,
-          color: Color(0xff707070),
-        );
+        titleStyle = Theme.of(context).textTheme.titleMedium;
         icon = const Icon(Icons.arrow_back);
         onPressed = () => Navigator.pop(context);
         break;
@@ -60,6 +51,7 @@ class TitleBar extends StatelessWidget {
 
     final topBar = Row(children: [
       IconButton(
+        color: const Color(0xff404040),
         iconSize: _height,
         padding: const EdgeInsets.all(0),
         icon: icon,
@@ -77,12 +69,12 @@ class TitleBar extends StatelessWidget {
 
 class WindowButtons extends StatelessWidget {
   final minimizeBtnColors = WindowButtonColors(
-    iconNormal: const Color(0xff707070),
+    iconNormal: const Color(0xff404040),
     mouseOver: const Color(0xff343434),
     );
 
   final closeBtnColors = WindowButtonColors(
-      iconNormal: const Color(0xff707070),
+      iconNormal: const Color(0xff404040),
       mouseOver: const Color(0xffE81123),
       );
 

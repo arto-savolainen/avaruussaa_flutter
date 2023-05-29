@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../components/station.dart';
 import '../services/stations_service.dart';
 import '../components/titlebar.dart';
+import '../components/footer.dart';
 
 class StationsView extends StatefulWidget {
   const StationsView({super.key});
@@ -30,12 +31,12 @@ class StationsViewState extends State {
 
   @override
   Widget build(BuildContext context) {
-    final titleBar = TitleBar('stations');
+    const titleBar = TitleBar('stations');
 
     final stationsGridView = GridView.count(
       crossAxisCount: 2,
       mainAxisSpacing: 0.5,
-      childAspectRatio: 8,
+      childAspectRatio: 7,
       children: stationsList,
     );
     final gridContainer = Container(
@@ -44,7 +45,8 @@ class StationsViewState extends State {
     final stationsView = Column(children: [titleBar, Expanded(child: gridContainer)]);
 
     return Scaffold(
-        // appBar: const MyAppBar('stations', titleStyle: TextStyle(fontSize: 17)),
-        body: SafeArea(child: Center(child: stationsView)));
+      body: SafeArea(child: Center(child: stationsView)),
+      bottomSheet: const Footer(),
+    );
   }
 }

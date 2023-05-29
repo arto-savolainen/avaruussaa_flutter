@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import '../services/stations_service.dart';
 import '../models/station_model.dart';
-import '../components/appbar.dart';
 import '../components/titlebar.dart';
+import '../components/footer.dart';
 
 class MainView extends StatefulWidget {
   const MainView({super.key});
@@ -24,17 +24,8 @@ class MainViewState extends State {
 
   @override
   Widget build(BuildContext context) {
-    const activityStyle = TextStyle(
-      // TODO: better solution for styles?
-      fontFamily: 'Calibri',
-      fontSize: 50,
-      fontWeight: FontWeight.bold,
-      color: Color(0xff1717fc),
-    );
-    const timerStyle = TextStyle(
-      fontSize: 14,
-    );
-    const errorStyle = timerStyle;
+    TextStyle? activityStyle = Theme.of(context).textTheme.displayLarge;
+    TextStyle? errorStyle = Theme.of(context).textTheme.bodyMedium;
 
     // Set text widgets for displaying activity level, time to next update, and the name of the currently selected station
     // Widgets built with ListenableBuilder are rebuilt when the StationModel object notifies them of changed values
@@ -45,26 +36,19 @@ class MainViewState extends State {
             // Display error message in place of activity if the model's error is not empty
             stationNotifier.error == '' ? stationNotifier.activity.toString() : stationNotifier.error,
             style: stationNotifier.error == '' ? activityStyle : errorStyle,
-            textAlign: TextAlign.center,
           );
         });
 
     final timerText = ListenableBuilder(
         listenable: stationNotifier,
         builder: (BuildContext context, Widget? child) {
-          return Text(
-            'Seuraava päivitys: ${stationNotifier.timerString}',
-            style: timerStyle,
-          );
+          return Text('Seuraava päivitys: ${stationNotifier.timerString}'); 
         });
 
     final currentStationNameText = ListenableBuilder(
         listenable: stationNotifier,
         builder: (BuildContext context, Widget? child) {
-          return Text(
-            stationNotifier.name,
-            softWrap: true,
-          );
+          return Text(stationNotifier.name);
         });
 
     // Clickable elements to navigate to StationsView
@@ -76,10 +60,10 @@ class MainViewState extends State {
       onTap: () => Navigator.pushNamed(context, '/stations'),
       child: MouseRegion(
         cursor: SystemMouseCursors.click,
-        child: Image.asset('assets/station-icon.png'),
+        child: Image.asset('assets/station-icon.png', filterQuality: FilterQuality.high,),
       ),
     );
-    final stationClickable = Row(
+    final stationRow = Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Flexible(child: stationBtn),
@@ -87,24 +71,24 @@ class MainViewState extends State {
       ],
     );
 
-    // Main view and appBar
+    // Views consist of a title bar and the view components defined by the view class, 
+    // and a link footer as the bottomSheet of the scaffold
     final mainView = Column(
       children: [
-        TitleBar('main'),
+        const TitleBar('main'),
         SizedBox(
-          height: 70,
+          height: 76,
           child: Center(child: activityText),
         ),
         timerText,
-        stationClickable,
+        const SizedBox(height: 5),
+        stationRow,
       ],
     );
 
-    // const appBar = MyAppBar('main');
-
     return Scaffold(
-      // appBar: appBar,
       body: Center(child: mainView),
+      bottomSheet: const Footer(),
     );
   }
 }
