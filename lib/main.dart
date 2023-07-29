@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
-// import 'package:window_manager/window_manager.dart';
 import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:local_notifier/local_notifier.dart';
 import 'package:system_tray/system_tray.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'views/main_view.dart';
 import 'views/settings_view.dart';
 import 'views/stations_view.dart';
 import 'themes/theme.dart';
+import 'providers/settings_provider.dart';
 
+final settingsProvider = SettingsProvider.getProvider();
 void main() async {
   // Required by some packages accessing system functions
   WidgetsFlutterBinding.ensureInitialized();
-  // // Must add this line.
-  // await windowManager.ensureInitialized();
 
   // Initialize notifications
   await localNotifier.setup(
@@ -22,9 +22,9 @@ void main() async {
   // Initialize system tray
   initSystemTray();
 
-  runApp(const MainApp());
+  runApp(const ProviderScope(child: MainApp()));
 
-  // Initialize window *after* runApp
+  // Initialize window, must be done after runApp()
   initWindow();
 }
 

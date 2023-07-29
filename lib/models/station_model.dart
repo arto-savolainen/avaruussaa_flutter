@@ -6,7 +6,7 @@ import '../util/set_timeout.dart';
 
 // Data model for the currently selected station and the update timer
 // Notifies listeners (MainView) when station data or the timer changes, 
-// triggering a rebuild of widgets dependant on the model's data
+// triggering a rebuild of widgets dependent on the model's data
 class StationModel with ChangeNotifier {
   String _name = 'loading...';
   String _error = '';
@@ -41,7 +41,6 @@ class StationModel with ChangeNotifier {
 
   _updateTimer(DateTime updateTime) {
     int secondsToNextUpdate = ((updateTime.millisecondsSinceEpoch - DateTime.now().millisecondsSinceEpoch) / 1000).round();
-    print('TIMETOUPDATE: $secondsToNextUpdate');
 
     if (secondsToNextUpdate < 0) {
       return;

@@ -26,7 +26,7 @@ class StationsService {
   static final List<Station> _stations = [];
   static bool _initialized = false;
   static StationModel _model = StationModel();
-  static double _notificationTreshold = 0.4;
+  static double _notificationThreshold = 0.4;
 
   StationsService._(); // Private constructor for static class
 
@@ -51,8 +51,8 @@ class StationsService {
     return _stations;
   }
 
-  static setNotificationTreshold(double treshold) {
-    _notificationTreshold = treshold >= 0 ? treshold : 0;
+  static setNotificationThreshold(double threshold) {
+    _notificationThreshold = threshold >= 0 ? threshold : 0;
   }
 
   static _checkIfInitialized() async {
@@ -175,8 +175,8 @@ class StationsService {
       Station currentStation = _stations.firstWhere((element) => element.name == _model.name);
       _model.updateCurrentStation(currentStation);
 
-      // Show notification if activity level is at or above treshold
-      if (currentStation.activity >= _notificationTreshold) {
+      // Show notification if activity level is at or above threshold
+      if (currentStation.activity >= _notificationThreshold) {
         _showNotification(currentStation);
       }
     }
