@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-// Widgets created by this class are used to select a station's data for viewing by the user
-// StationsView lists the stations in a grid of clickable buttons returned by Station's build function
+/// Widgets created by this class are used to select a weather station's data for viewing by the user.
+/// StationsView lists the stations in a grid of clickable TextButtons returned by Station'sbuild().
 class Station extends StatelessWidget {
-  final String name; // Station name
-  final double activity; // Current activity level measured at station
-  final String error; // This is set if no valid data for the station could be retrieved
-  final Function callback; // This is called when the user presses the TextButton returned by build
+  final String name;
+  final double activity; // Current activity level measured at station.
+  final String error; // This is set if no valid data for the station could be retrieved.
+  final Function callback; // This is called when the user presses the TextButton returned by build.
 
   const Station(
     this.name,
@@ -18,16 +18,16 @@ class Station extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // When a user clicks the button, the callback function sets the current station in StationModel
-    setStation() {
-      // Callback function is StationsService.setStation(String stationName)
+    // When a user clicks the button, the callback function sets the current station in StationModel.
+    handleClick() {
+      // Callback function should be StationsService.setStation(String stationName).
       callback(name);
-      // Then we return to the main view
+      // Then we return to the main view.
       Navigator.pop(context);
     }
 
     return TextButton(
-      onPressed: setStation,
+      onPressed: handleClick,
       child: Text(name),
     );
   }

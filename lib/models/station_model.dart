@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 import '../components/station.dart';
-import '../util/set_timeout.dart';
+import '../utils/set_timeout.dart';
 
 // Data model for the currently selected station and the update timer
 // Notifies listeners (MainView) when station data or the timer changes, 

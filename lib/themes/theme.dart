@@ -6,7 +6,6 @@ class AvaruusTheme {
   static const _textColor = Color(0xff707070);
   static const _iconColor = Color(0xff404040);
   static const _linkColor = Color(0xff0000EE);
-  // static const _linkColor = Color.fromARGB(255, 0, 36, 240);
   static const _defaultTextStyle = TextStyle(
     fontSize: 15.0,
     fontWeight: FontWeight.normal,

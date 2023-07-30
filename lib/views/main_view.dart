@@ -1,11 +1,9 @@
-import 'package:avaruussaa_flutter/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../services/stations_service.dart';
 import '../models/station_model.dart';
 import '../components/titlebar.dart';
 import '../components/footer.dart';
-import '../models/settings.dart';
 
 class MainView extends ConsumerStatefulWidget {
   const MainView({super.key});
@@ -27,11 +25,6 @@ class MainViewState extends ConsumerState<MainView> {
 
   @override
   Widget build(BuildContext context) {
-    // This forces async initialization of app settings before loading the settings view
-    // Thus eliminating any visual bugs resulting from async operations finishing after view render
-    // ignore: unused_local_variable
-    final AsyncValue<Settings> settings = ref.watch(settingsProvider);
-
     TextStyle? activityStyle = Theme.of(context).textTheme.displayLarge;
     TextStyle? errorStyle = Theme.of(context).textTheme.bodyMedium;
 
@@ -99,10 +92,5 @@ class MainViewState extends ConsumerState<MainView> {
       body: Center(child: mainView),
       bottomSheet: const Footer(),
     );
-    // return settingsTest.when(
-    //   loading: () => Scaffold(body: Center(child: Text('LOADING'))),
-    //   error: () => Scaffold(body: Center(child: Text('ERROR'))),
-    //   data: (settings) => Scaffold(body: Center(child: Text('SETTINGS: $settings'))),
-    // );
   }
 }
