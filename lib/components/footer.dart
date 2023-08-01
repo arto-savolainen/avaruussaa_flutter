@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
+/// Displays a link to Ilmatieteen laitos at the bottom of the app.
 class Footer extends StatelessWidget {
   const Footer({super.key});
 

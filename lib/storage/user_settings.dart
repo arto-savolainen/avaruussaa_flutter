@@ -4,12 +4,15 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 // This library offers functions for modifying and retrieving user settings stored in SharedPreferences.
 
-const double _thresholdDefault =
-    0.4; // Activity level threshold for showing a notification.
-const double _intervalDefault =
-    1; // Minimum time between notifications in hours.
-const bool _notificationsDefault = true; // Send desktop notifications.
-const bool _minimizeDefault = true; // Hide window and send to tray on minimize.
+// Define default values for settings that have not yet been modified.
+/// Activity level threshold for showing a notification.
+const double _thresholdDefault = 0.4;
+/// Minimum time between notifications, in hours (avoids spamming the user every 10 minutes).
+const double _intervalDefault = 1;
+/// Notifications are enabled by default.
+const bool _notificationsDefault = true;
+/// Hide window and send app to tray on minimize.
+const bool _minimizeDefault = true; 
 
 setNotificationsEnabled(bool value) async {
   SharedPreferences settings = await SharedPreferences.getInstance();

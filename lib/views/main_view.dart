@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../services/stations_service.dart';
+
+import '../services/stations_service.dart' as stations_service;
 import '../models/station_model.dart';
 import '../components/titlebar.dart';
 import '../components/footer.dart';
@@ -18,23 +19,23 @@ class MainViewState extends ConsumerState<MainView> {
   @override
   initState() {
     super.initState();
-    // Below we pass the model object to StationsService so that the model we use is updated by the service
-    // Changes in the model are reflected in this view
-    StationsService.subscribe(stationNotifier);
+    // Below we pass the model object to StationsService so that the model we use is updated by the service.
+    // Changes in the model are reflected in this view.
+    stations_service.subscribe(stationNotifier);
   }
 
   @override
   Widget build(BuildContext context) {
     TextStyle? activityStyle = Theme.of(context).textTheme.displayLarge;
     TextStyle? errorStyle = Theme.of(context).textTheme.bodyMedium;
-
-    // Set text widgets for displaying activity level, time to next update, and the name of the currently selected station
-    // Widgets built with ListenableBuilder are rebuilt when the StationModel object notifies them of changed values
+    
+    // Set text widgets for displaying activity level, time to next update, and the name of the currently selected station.
+    // Widgets built with ListenableBuilder are rebuilt when the StationModel object notifies them of changed values.
     final activityText = ListenableBuilder(
         listenable: stationNotifier,
         builder: (BuildContext context, Widget? child) {
           return Text(
-            // Display error message in place of activity if the model's error is not empty
+            // Display error message in place of activity if the model's error is not empty.
             stationNotifier.error == '' ? stationNotifier.activity.toString() : stationNotifier.error,
             style: stationNotifier.error == '' ? activityStyle : errorStyle,
             textAlign: TextAlign.center,
@@ -53,7 +54,8 @@ class MainViewState extends ConsumerState<MainView> {
           return Text(stationNotifier.name);
         });
 
-    // Clickable elements to navigate to StationsView
+    // Clickable elements that display the name of the currently selected weather station
+    // and allow navigation to StationsView.
     final stationBtn = TextButton(
       onPressed: () => Navigator.pushNamed(context, '/stations'),
       child: currentStationNameText,
@@ -62,7 +64,10 @@ class MainViewState extends ConsumerState<MainView> {
       onTap: () => Navigator.pushNamed(context, '/stations'),
       child: MouseRegion(
         cursor: SystemMouseCursors.click,
-        child: Image.asset('assets/station-icon.png', filterQuality: FilterQuality.high,),
+        child: Image.asset(
+          'assets/station-icon.png',
+          filterQuality: FilterQuality.high,
+        ),
       ),
     );
     final stationRow = Row(
@@ -73,11 +78,11 @@ class MainViewState extends ConsumerState<MainView> {
       ],
     );
 
-    // Views consist of a title bar and the view components defined by the view class, 
-    // and a link footer as the bottomSheet of the scaffold
+    // Views consist of a draggable title bar, the view content itself,
+    // and a footer containing a link as the bottomSheet of the scaffold.
     final mainView = Column(
       children: [
-        const TitleBar('main'),
+        const TitleBar(viewId:'main'),
         SizedBox(
           height: 76,
           child: Center(child: activityText),

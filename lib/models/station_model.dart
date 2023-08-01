@@ -1,12 +1,13 @@
-// ignore_for_file: avoid_print
-import 'package:flutter/material.dart';
 import 'dart:async';
+
+import 'package:flutter/material.dart';
+
 import '../components/station.dart';
 import '../utils/set_timeout.dart';
 
-// Data model for the currently selected station and the update timer
-// Notifies listeners (MainView) when station data or the timer changes, 
-// triggering a rebuild of widgets dependent on the model's data
+/// Data model for the currently selected station and the UI update timer.
+/// Notifies listeners in MainView when station data or the timer changes, 
+/// triggering a rebuild of widgets dependent on the model's data.
 class StationModel with ChangeNotifier {
   String _name = 'loading...';
   String _error = '';
@@ -18,10 +19,10 @@ class StationModel with ChangeNotifier {
   double get activity => _activity;
   String get timerString => _timerString;
 
-  updateCurrentStation(Station newStation) {
-    print('UPDATING STATIONMODEL');
+  setCurrentStation(Station newStation) {
+    debugPrint('UPDATING STATIONMODEL');
     _activity = newStation.activity;
-    _name = newStation.name;
+    _name = newStation.stationName;
     _error = newStation.error;
 
     notifyListeners();
@@ -29,17 +30,17 @@ class StationModel with ChangeNotifier {
 
   setTimer(int secondsToNextUpdate) {
     if (_timer != null) {
-      print('CANCELING OLD TIMER');
+      debugPrint('CANCELING OLD TIMER');
       _timer?.cancel();
     }
 
-    print('arrived in setTimer, secondsToNextUpdate: $secondsToNextUpdate');
+    debugPrint('arrived in setTimer, secondsToNextUpdate: $secondsToNextUpdate');
     DateTime updateTime = DateTime.now().add(Duration(seconds: secondsToNextUpdate));
-    _updateTimer(updateTime);
-    _timer = setRepeatingTimeout(1, (timer) => _updateTimer(updateTime));
+    _updateTimerString(updateTime);
+    _timer = setRepeatingTimeout(1, (timer) => _updateTimerString(updateTime));
   }
 
-  _updateTimer(DateTime updateTime) {
+  _updateTimerString(DateTime updateTime) {
     int secondsToNextUpdate = ((updateTime.millisecondsSinceEpoch - DateTime.now().millisecondsSinceEpoch) / 1000).round();
 
     if (secondsToNextUpdate < 0) {

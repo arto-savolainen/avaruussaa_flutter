@@ -1,5 +1,6 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import '../models/settings.dart';
+
+import '../models/settings_model.dart';
 import '../storage/user_settings.dart' as user_settings;
 
 part 'settings_provider.g.dart';

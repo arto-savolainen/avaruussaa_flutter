@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import '../providers/settings_provider.dart';
 import '../system/window_manager.dart';
 
-/// Builds a draggable title bar with a clickable icon. Parameter [view] is used to determine
+/// Builds a draggable title bar with a clickable icon. Parameter [viewId] is used to determine
 /// the title and icon used. 'main' creates the title bar for the main view, 'settings' for
 /// the settings view, and 'stations' for the stations view.
 class TitleBar extends StatelessWidget {
-  final String view;
-  // Dimensions of the top bar.
+  const TitleBar({required this.viewId, super.key});
+
+  final String viewId;
   final double topBarWidth = 225;
   final double topBarHeight = 30;
-
-  const TitleBar(this.view, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -23,8 +23,8 @@ class TitleBar extends StatelessWidget {
 
     TextStyle? titleStyle = Theme.of(context).textTheme.titleLarge;
 
-    // Determine title content, icon graphic and icon onPressed function based on [view].
-    switch (view) {
+    // Determine title, icon graphic and icon onPressed function based on [viewId].
+    switch (viewId) {
       case 'main':
         title = 'Aktiivisuus';
         icon = const Icon(Icons.menu);

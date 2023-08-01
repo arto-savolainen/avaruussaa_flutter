@@ -1,8 +1,8 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'settings.freezed.dart';
+part 'settings_model.freezed.dart';
 
-/// Generates a model for user settings.
+/// Model for user settings.
 @freezed
 class Settings with _$Settings {
   factory Settings({

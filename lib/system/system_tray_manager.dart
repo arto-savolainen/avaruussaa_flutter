@@ -1,5 +1,10 @@
+library;
+
 import 'package:system_tray/system_tray.dart';
+
 import 'window_manager.dart';
+
+// This library offers functions for creating and destroying system tray instances.
 
 /// Removes the system tray icon.
 Future<void> destroySystemTray() async {

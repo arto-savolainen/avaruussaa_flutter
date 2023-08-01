@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
+/// Defines theme data for the app. Use via AvaruusTheme.theme.
 class AvaruusTheme {
   AvaruusTheme._();
+
   static const _backgroundColor = Color(0xff151515);
   static const _textColor = Color(0xff707070);
   static const _iconColor = Color(0xff404040);
@@ -57,14 +59,16 @@ class AvaruusTheme {
       style: TextButton.styleFrom(foregroundColor: _textColor),
     ),
 
-    // IconButtonTheme requires ThemeData.useMaterial3 = true to work, which breaks other things
-    // Therefore IconButton styles will be set individually
-    // iconButtonTheme: IconButtonThemeData( 
-    //   style: IconButton.styleFrom(
-    //     foregroundColor: _iconColor,
-    //     iconSize: 30,
-    //   ),
-    // ),
+    // inputDecorationTheme: InputDecorationTheme(),
+
+    // Note: IconButtonTheme requires ThemeData.useMaterial3 = true to work, which breaks other things.
+    // Therefore IconButton styles will be set individually. Code below kept for future reference.
+    iconButtonTheme: IconButtonThemeData( 
+      style: IconButton.styleFrom(
+        foregroundColor: _iconColor,
+        iconSize: 30,
+      ),
+    ),
   );
 
   static ThemeData get theme => _theme;
