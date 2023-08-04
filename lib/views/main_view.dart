@@ -1,101 +1,89 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../services/stations_service.dart' as stations_service;
-import '../models/station_model.dart';
 import '../components/titlebar.dart';
 import '../components/footer.dart';
+import '../components/station.dart';
+import '../providers/stations_data_provider.dart';
 
+/// The main view of the app. Displays a weather station's magnetic activity.
+/// Listens to asyncStationsDataProvider which supplies the view with data.
 class MainView extends ConsumerStatefulWidget {
   const MainView({super.key});
 
   @override
-  ConsumerState<MainView> createState() => MainViewState();
+  ConsumerState<MainView> createState() => _MainViewState();
 }
 
-class MainViewState extends ConsumerState<MainView> {
-  final StationModel stationNotifier = StationModel();
-
-  @override
-  initState() {
-    super.initState();
-    // Below we pass the model object to StationsService so that the model we use is updated by the service.
-    // Changes in the model are reflected in this view.
-    stations_service.subscribe(stationNotifier);
-  }
-
+class _MainViewState extends ConsumerState<MainView> {
   @override
   Widget build(BuildContext context) {
-    TextStyle? activityStyle = Theme.of(context).textTheme.displayLarge;
-    TextStyle? errorStyle = Theme.of(context).textTheme.bodyMedium;
-    
-    // Set text widgets for displaying activity level, time to next update, and the name of the currently selected station.
-    // Widgets built with ListenableBuilder are rebuilt when the StationModel object notifies them of changed values.
-    final activityText = ListenableBuilder(
-        listenable: stationNotifier,
-        builder: (BuildContext context, Widget? child) {
-          return Text(
-            // Display error message in place of activity if the model's error is not empty.
-            stationNotifier.error == '' ? stationNotifier.activity.toString() : stationNotifier.error,
-            style: stationNotifier.error == '' ? activityStyle : errorStyle,
-            textAlign: TextAlign.center,
-          );
-        });
+    final asyncStationsData = ref.watch(asyncStationsDataProvider);
 
-    final timerText = ListenableBuilder(
-        listenable: stationNotifier,
-        builder: (BuildContext context, Widget? child) {
-          return Text('Seuraava päivitys: ${stationNotifier.timerString}'); 
-        });
+    return asyncStationsData.when(
+      data: (stationsData) {
+        TextStyle? activityStyle = Theme.of(context).textTheme.displayLarge;
+        TextStyle? errorStyle = Theme.of(context).textTheme.bodyMedium;
+        Station currentStation = stationsData.currentStation;
 
-    final currentStationNameText = ListenableBuilder(
-        listenable: stationNotifier,
-        builder: (BuildContext context, Widget? child) {
-          return Text(stationNotifier.name);
-        });
+        final activityText = Text(
+          // Display error message in place of activity if currentStation.error is not empty.
+          currentStation.error == '' ? currentStation.activity.toString() : currentStation.error,
+          style: currentStation.error == '' ? activityStyle : errorStyle,
+          textAlign: TextAlign.center,
+        );
 
-    // Clickable elements that display the name of the currently selected weather station
-    // and allow navigation to StationsView.
-    final stationBtn = TextButton(
-      onPressed: () => Navigator.pushNamed(context, '/stations'),
-      child: currentStationNameText,
-    );
-    final stationIconBtn = GestureDetector(
-      onTap: () => Navigator.pushNamed(context, '/stations'),
-      child: MouseRegion(
-        cursor: SystemMouseCursors.click,
-        child: Image.asset(
-          'assets/station-icon.png',
-          filterQuality: FilterQuality.high,
-        ),
-      ),
-    );
-    final stationRow = Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Flexible(child: stationBtn),
-        stationIconBtn,
-      ],
-    );
+        final timerText =
+            Text('Seuraava päivitys: ${stationsData.timerString}');
 
-    // Views consist of a draggable title bar, the view content itself,
-    // and a footer containing a link as the bottomSheet of the scaffold.
-    final mainView = Column(
-      children: [
-        const TitleBar(viewId:'main'),
-        SizedBox(
-          height: 76,
-          child: Center(child: activityText),
-        ),
-        timerText,
-        const SizedBox(height: 5),
-        stationRow,
-      ],
-    );
+        // Clickable widgets that display the name of the currently selected weather station
+        // and allow navigation to StationsView.
+        final stationBtn = TextButton(
+          onPressed: () => Navigator.pushNamed(context, '/stations'),
+          child: Text(currentStation.name),
+        );
+        final stationIconBtn = GestureDetector(
+          onTap: () => Navigator.pushNamed(context, '/stations'),
+          child: MouseRegion(
+            cursor: SystemMouseCursors.click,
+            child: Image.asset(
+              'assets/station-icon.png',
+              filterQuality: FilterQuality.high,
+            ),
+          ),
+        );
+        final stationRow = Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Flexible(child: stationBtn),
+            stationIconBtn,
+          ],
+        );
 
-    return Scaffold(
-      body: Center(child: mainView),
-      bottomSheet: const Footer(),
+        // Views consist of a title bar, the view content itself,
+        // and a footer containing a link as the bottomSheet of the scaffold.
+        final mainView = Column(
+          children: [
+            const TitleBar(viewId: 'main'),
+            SizedBox(
+              height: 76,
+              child: Center(child: activityText),
+            ),
+            timerText,
+            const SizedBox(height: 5),
+            stationRow,
+          ],
+        );
+
+        return Scaffold(
+          body: Center(child: mainView),
+          bottomSheet: const Footer(),
+        );
+      },
+      error: (error, stackTrace) => Scaffold(body: Center(child: Text('Virhe: $error'))),
+      // The provider's state is set almost instantly so in this case it
+      // doesn't really matter what we put here.
+      loading: () => const Scaffold(body: Center(child: Text('ladataan'))),
     );
   }
 }

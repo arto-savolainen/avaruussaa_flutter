@@ -20,15 +20,9 @@ class NumberInputField extends StatefulWidget {
 class _NumberInputFieldState extends State<NumberInputField> {
   late TextEditingController _controller;
 
-  @override
-  void initState() {
-    super.initState();
-    _controller = TextEditingController(text: widget.initialValue.toString());
-  }
-
   /// Validates user input of the TextFormField and passes valid values to callback
   /// function. Input must be a valid double.
-  void validateInputAndUpdateAppState() {
+  void _validateInputAndUpdateAppState() {
     double valueAsDouble;
 
     // Check that the value can be cast to double.
@@ -52,13 +46,19 @@ class _NumberInputFieldState extends State<NumberInputField> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    _controller = TextEditingController(text: widget.initialValue.toString());
+  }
+
+  @override
   Widget build(BuildContext context) {
     // Handle submit event with a listener function that triggers when the
     // TextFormField loses focus.
     final FocusNode focusNode = FocusNode();
     focusNode.addListener(() { 
       if (!focusNode.hasFocus) {
-        validateInputAndUpdateAppState();
+        _validateInputAndUpdateAppState();
       }
     });
 
@@ -81,5 +81,11 @@ class _NumberInputFieldState extends State<NumberInputField> {
     );
 
     return inputField;
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 }

@@ -8,6 +8,7 @@ class AvaruusTheme {
   static const _textColor = Color(0xff707070);
   static const _iconColor = Color(0xff404040);
   static const _linkColor = Color(0xff0000EE);
+  static const _activityColor = Color(0xff1717fc);
   static const _defaultTextStyle = TextStyle(
     fontSize: 15.0,
     fontWeight: FontWeight.normal,
@@ -28,8 +29,15 @@ class AvaruusTheme {
         fontFamily: 'Calibri',
         fontSize: 55,
         fontWeight: FontWeight.bold,
-        color: Color(0xff1717fc),
+        color: _activityColor,
         height: 0.9,
+      ),
+      displayMedium: TextStyle(
+        fontFamily: 'Calibri',
+        fontSize: 32,
+        fontWeight: FontWeight.bold,
+        color: _activityColor,
+        height: 0.8,
       ),
       titleLarge: TextStyle(
         fontSize: 32.0,

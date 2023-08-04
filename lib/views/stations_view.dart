@@ -1,63 +1,52 @@
+import 'package:avaruussaa_flutter/providers/stations_data_provider.dart';
 import 'package:flutter/material.dart';
-import '../components/station.dart';
-import '../services/stations_service.dart' as stations_service;
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import '../components/titlebar.dart';
 import '../components/footer.dart';
 
 /// Displays a grid of available weather stations. The user can click on the
-/// name of a station to view its activity data (Station widget is clickable).
-class StationsView extends StatefulWidget {
+/// name of a station (Station widget) to view its activity data.
+class StationsView extends ConsumerStatefulWidget {
   const StationsView({super.key});
 
   @override
-  StationsViewState createState() => StationsViewState();
+  ConsumerState<StationsView> createState() => _StationsViewState();
 }
 
-class StationsViewState extends State {
-  List<Station> stationList = [];
-
-  @override
-  initState() {
-    super.initState();
-    updateStationsList();
-  }
-
-  /// Get station data from the stations service.
-  updateStationsList() async {
-    stationList = await stations_service.getStations();
-    updateView();
-  }
-
-  /// Rebuild the view after station data has been retrieved.
-  updateView() {
-    setState(() {});
-  }
-
+class _StationsViewState extends ConsumerState<StationsView> {
   @override
   Widget build(BuildContext context) {
     const titleBar = TitleBar(viewId: 'stations');
+    final asyncStationsData = ref.watch(asyncStationsDataProvider);  
 
-    final stationsGridView = GridView.count(
-      crossAxisCount: 2,
-      mainAxisSpacing: 0.5,
-      childAspectRatio: 7,
-      children: stationList,
-    );
-    final gridContainer = Container(
-      margin: const EdgeInsets.fromLTRB(10, 10, 10, 10),
-      child: stationsGridView,
-    );
+    return asyncStationsData.when(
+      data: (stationsData) {
+        final stationsGridView = GridView.count(
+          crossAxisCount: 2,
+          mainAxisSpacing: 0.5,
+          childAspectRatio: 7,
+          children: stationsData.stations,
+        );
+        final gridContainer = Container(
+          margin: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+          child: stationsGridView,
+        );
 
-    final stationsView = Column(
-      children: [
-        titleBar,
-        Expanded(child: gridContainer),
-      ],
-    );
+        final stationsView = Column(
+          children: [
+            titleBar,
+            Expanded(child: gridContainer),
+          ],
+        );
 
-    return Scaffold(
-      body: SafeArea(child: Center(child: stationsView)),
-      bottomSheet: const Footer(),
+        return Scaffold(
+          body: SafeArea(child: Center(child: stationsView)),
+          bottomSheet: const Footer(),
+        );
+      },
+      error: (error, stackTrace) => Scaffold(body: Center(child: Text('Virhe: $error'))),
+      loading: () => const Scaffold(body: Center(child: Text('ladataan'))),
     );
   }
 }

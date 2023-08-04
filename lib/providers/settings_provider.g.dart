@@ -6,11 +6,11 @@ part of 'settings_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$asyncSettingsHash() => r'ce00d31cd12d9a99c0259415a314c959043e8406';
+String _$asyncSettingsHash() => r'ea130aa08039391ef0a91d13fb1843bdc070b447';
 
-/// AsyncNotifier which exposes app settings. Generates an AsyncNotifierProvider that
-/// provides information to UI components and saves changes by calling user_settings,
-/// which writes the settings to SharedPreferences.
+/// AsyncNotifier which exposes app settings to UI components and saves changes
+/// to SharedPreferences by calling the user_settings library. Generates an
+/// AsyncNotifierProvider for accessing the Notifier.
 ///
 /// Copied from [AsyncSettings].
 @ProviderFor(AsyncSettings)

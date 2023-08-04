@@ -16,8 +16,6 @@ class SettingsView extends ConsumerWidget {
     final asyncSettings = ref.watch(asyncSettingsProvider);
 
     return asyncSettings.when(
-      loading: () => const Text('Ladataan...'),
-      error: (err, stack) => Text('Virhe: $err'),
       data: (settings) {
         const titleBar = TitleBar(viewId: 'settings');
 
@@ -61,6 +59,8 @@ class SettingsView extends ConsumerWidget {
           bottomSheet: const Footer(),
         );
       },
+      error: (error, stackTrace) => Scaffold(body: Center(child: Text('Virhe: $error'))),
+      loading: () => const Scaffold(body: Center(child: Text('ladataan'))),
     );
   }
 }

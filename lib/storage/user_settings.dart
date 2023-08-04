@@ -5,6 +5,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 // This library offers functions for modifying and retrieving user settings stored in SharedPreferences.
 
 // Define default values for settings that have not yet been modified.
+/// Default station is Nurmijärvi.
+const String _defaultStationName = 'Nurmijärvi';
 /// Activity level threshold for showing a notification.
 const double _thresholdDefault = 0.4;
 /// Minimum time between notifications, in hours (avoids spamming the user every 10 minutes).
@@ -13,6 +15,20 @@ const double _intervalDefault = 1;
 const bool _notificationsDefault = true;
 /// Hide window and send app to tray on minimize.
 const bool _minimizeDefault = true; 
+
+setCurrentStation(String stationName) async {
+  SharedPreferences settings = await SharedPreferences.getInstance();
+  settings.setString('CURRENT_STATION', stationName);
+}
+
+getCurrentStation() async {
+  SharedPreferences settings = await SharedPreferences.getInstance();
+  if (!settings.containsKey('CURRENT_STATION')) {
+    return _defaultStationName;
+  }
+
+  return settings.getString('CURRENT_STATION');
+}
 
 setNotificationsEnabled(bool value) async {
   SharedPreferences settings = await SharedPreferences.getInstance();
