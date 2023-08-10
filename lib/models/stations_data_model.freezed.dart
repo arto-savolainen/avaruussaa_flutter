@@ -16,13 +16,11 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$StationsData {
-  /// Data cache containing the names, activity values and error states of weather stations.
-  List<Station> get stations => throw _privateConstructorUsedError;
-
-  /// Data for the currently selected station which shows in the main view.
-  Station get currentStation => throw _privateConstructorUsedError;
-
-  /// Used to display time remaining to the next data update in the main view.
+  ///Data cache containing the names, activity values and error states of weather stations.
+  List<Station> get stations =>
+      throw _privateConstructorUsedError; // Data for the currently selected station which is shown in the main view.
+  Station get currentStation =>
+      throw _privateConstructorUsedError; // Used to display time remaining to the next data update in the main view.
   String get timerString => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -127,10 +125,10 @@ class _$_StationsData implements _StationsData {
       required this.timerString})
       : _stations = stations;
 
-  /// Data cache containing the names, activity values and error states of weather stations.
+  ///Data cache containing the names, activity values and error states of weather stations.
   final List<Station> _stations;
 
-  /// Data cache containing the names, activity values and error states of weather stations.
+  ///Data cache containing the names, activity values and error states of weather stations.
   @override
   List<Station> get stations {
     if (_stations is EqualUnmodifiableListView) return _stations;
@@ -138,11 +136,10 @@ class _$_StationsData implements _StationsData {
     return EqualUnmodifiableListView(_stations);
   }
 
-  /// Data for the currently selected station which shows in the main view.
+// Data for the currently selected station which is shown in the main view.
   @override
   final Station currentStation;
-
-  /// Used to display time remaining to the next data update in the main view.
+// Used to display time remaining to the next data update in the main view.
   @override
   final String timerString;
 
@@ -185,15 +182,11 @@ abstract class _StationsData implements StationsData {
 
   @override
 
-  /// Data cache containing the names, activity values and error states of weather stations.
+  ///Data cache containing the names, activity values and error states of weather stations.
   List<Station> get stations;
-  @override
-
-  /// Data for the currently selected station which shows in the main view.
+  @override // Data for the currently selected station which is shown in the main view.
   Station get currentStation;
-  @override
-
-  /// Used to display time remaining to the next data update in the main view.
+  @override // Used to display time remaining to the next data update in the main view.
   String get timerString;
   @override
   @JsonKey(ignore: true)

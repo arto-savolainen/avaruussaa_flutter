@@ -7,9 +7,9 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../models/stations_data_model.dart';
 import '../components/station.dart';
-import '../system/notifier.dart' as notifier;
 import '../storage/user_settings.dart' as user_settings;
 import '../utils/set_timeout.dart';
+import 'notification_manager_provider.dart';
 
 part 'stations_data_provider.g.dart';
 
@@ -43,7 +43,7 @@ class AsyncStationsData extends _$AsyncStationsData {
   void setStation(Station selectedStation) {
     // setStation() won't be called unless state is populated with data, so we
     // can reasonably expect that state.value won't be null.
-    state = _buildNewAsyncState(state.value!.stations, selectedStation);
+    state = _buildNewState(state.value!.stations, selectedStation);
 
     // Save the choice to SharedPreferences.
     user_settings.setCurrentStation(selectedStation.name);
@@ -82,7 +82,7 @@ class AsyncStationsData extends _$AsyncStationsData {
       // This shows the error in the main view in place of station activity.
       debugPrint('ERROR: $e');
       currentStation = _errorStation('Virhe', '$e');
-      state = _buildNewAsyncState(stationList, currentStation);
+      state = _buildNewState(stationList, currentStation);
       return state.value!;
     }
 
@@ -92,22 +92,22 @@ class AsyncStationsData extends _$AsyncStationsData {
 
     // Find the data for the current station from stationList and update state.
     currentStation = _findStation(stationList, state.value!.currentStation.name);
-    state = _buildNewAsyncState(stationList, currentStation);
+    state = _buildNewState(stationList, currentStation);
 
-    // Send notification if appropriate (notifier checks conditions).
-    notifier.sendNotification(currentStation.name, currentStation.activity);
+    // Send notification if appropriate (NotificationManager checks conditions).
+    ref.read(notificationManagerProvider.notifier).sendNotification(currentStation.name, currentStation.activity);
 
     return StationsData(stations: stationList, currentStation: currentStation, timerString: _buildTimerString());
   }
 
-  AsyncValue<StationsData> _buildNewAsyncState(List<Station> stations, Station currentStation) {
+  AsyncValue<StationsData> _buildNewState(List<Station> stations, Station currentStation) {
     return AsyncValue.data(StationsData(stations: stations, currentStation: currentStation, timerString: _buildTimerString()));
   }
 
   /// Separates the JavaScript arrays containing the data for each station from
-  /// the HTML/JavaScript response and converts them into iterable objects. The
-  /// latest entry in the iterable is used to construct a Station which is added
-  /// to [stationList]. [stationList] is returned after all stations have been added.
+  /// the HTML/JavaScript response and decodes them into iterable objects. The
+  /// latest entry in the iterable is the activity value which is used to construct a
+  /// Station that is then added to a list, which is returned after all stations have been added.
   List<Station> _parseDataFromResponse(String responseBody) {
     List<Station> stationList = [];
     // Parse activity data for each station and add that data to stationList.
@@ -211,7 +211,7 @@ class AsyncStationsData extends _$AsyncStationsData {
   /// Calls _buildNewAsyncState() in order to update [state.value.timerString].
   /// Checks if new data should be fetched and calls _fetchData().
   void _updateTimerString() async {
-    state = _buildNewAsyncState(state.value!.stations, state.value!.currentStation);
+    state = _buildNewState(state.value!.stations, state.value!.currentStation);
 
     // Trigger data fetching  when the timer reaches 0.
     if (state.value!.timerString == '00:00') {
@@ -236,11 +236,15 @@ class AsyncStationsData extends _$AsyncStationsData {
       callback: setStation,
     );
 
-    state = _buildNewAsyncState([], currentStation);
+    state = _buildNewState([], currentStation);
   }
 
   @override
   FutureOr<StationsData> build() async {
+    ref.onDispose(() {
+      _timer?.cancel();
+    });
+
     await _initState();
     _startTimer();
 

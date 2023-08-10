@@ -1,3 +1,3 @@
 # avaruussaa_flutter
 
-Avaruussää sovellus magneettisen aktiivisuuden monitorointiin Suomen yllä. Tämä sovelluksen versio on toteutettu työpöydälle Flutterilla. Pitäisi toimia Windowsilla, MacOS:lla ja Linuxilla.
+Avaruussää is an app for monitoring the magnetic activity above Finland, as measured by the weather stations of the Finnish Meteorological Institute. The app notifies the user when the data indicates that northern lights are probable. This version of the app is implemented for desktop using Flutter. The code should compile for Windows, MacOS and Linux. The released executable works on Windows.

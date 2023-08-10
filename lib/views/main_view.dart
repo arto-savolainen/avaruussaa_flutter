@@ -4,7 +4,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../components/titlebar.dart';
 import '../components/footer.dart';
 import '../components/station.dart';
+import '../models/settings_model.dart';
 import '../providers/stations_data_provider.dart';
+import '../providers/settings_provider.dart';
 
 /// The main view of the app. Displays a weather station's magnetic activity.
 /// Listens to asyncStationsDataProvider which supplies the view with data.
@@ -16,15 +18,30 @@ class MainView extends ConsumerStatefulWidget {
 }
 
 class _MainViewState extends ConsumerState<MainView> {
+  /// Determines the style of the activity element's text. Text color is red if [activity]
+  /// is equal to or higher than settings.notificationThreshold, blue otherwise.
+  TextStyle _getActivityStyle(double activity, AsyncValue<Settings> asyncSettings, BuildContext context) {
+    TextStyle style = Theme.of(context).textTheme.displayLarge!;
+
+    return asyncSettings.when(
+      data: (settings) {
+        return activity >= settings.notificationThreshold ? style.copyWith(color: Colors.red) : style;
+      },
+      error: (error, stackTrace) => style,
+      loading: () => style,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    final asyncSettings = ref.watch(asyncSettingsProvider);
     final asyncStationsData = ref.watch(asyncStationsDataProvider);
-
+    
     return asyncStationsData.when(
       data: (stationsData) {
-        TextStyle? activityStyle = Theme.of(context).textTheme.displayLarge;
-        TextStyle? errorStyle = Theme.of(context).textTheme.bodyMedium;
         Station currentStation = stationsData.currentStation;
+        TextStyle activityStyle = _getActivityStyle(currentStation.activity, asyncSettings, context);
+        TextStyle errorStyle = Theme.of(context).textTheme.bodyMedium!;
 
         final activityText = Text(
           // Display error message in place of activity if currentStation.error is not empty.
