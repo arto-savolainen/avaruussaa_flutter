@@ -8,7 +8,7 @@ part 'settings_provider.g.dart';
 /// AsyncNotifier which exposes app settings to UI components and saves changes
 /// to SharedPreferences by calling the user_settings library. Generates an
 /// AsyncNotifierProvider for accessing the Notifier.
-@riverpod
+@Riverpod(keepAlive: true)
 class AsyncSettings extends _$AsyncSettings {
   Future<Settings> _fetchSettings() async {
     double notificationTreshold = await user_settings.getNotificationThreshold();

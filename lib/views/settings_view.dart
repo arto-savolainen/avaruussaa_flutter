@@ -26,7 +26,7 @@ class SettingsView extends ConsumerWidget {
         );
 
         final intervalRow = LabeledNumberInput(
-          labelText: 'Notifikaatioväli (h): ',
+          labelText: 'Notifikaatioväli (t): ',
           value: settings.notificationInterval,
           callback: ref.read(asyncSettingsProvider.notifier).setNotificationsInterval,
         );

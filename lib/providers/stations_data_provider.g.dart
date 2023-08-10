@@ -6,7 +6,7 @@ part of 'stations_data_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$asyncStationsDataHash() => r'dcc2d014ba81f5907bd54256751be1e0be66233d';
+String _$asyncStationsDataHash() => r'376617e8c5073ffbb37d881f35e5e8cca805176c';
 
 /// AsyncNotifier which fetches weather station data from the web and exposes
 /// that data to UI components. Generates an AsyncNotifierProvider for
